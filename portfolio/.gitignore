@@ -1,0 +1,8 @@
+ .vs/ 
+ .vs.lnx/ 
+ 
+ .vs/git
+ 
+ *.vsidx 
+ *.suo 
+ *.user
