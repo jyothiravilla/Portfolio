@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jyothi Ravilla</title>
+    <link rel="stylesheet" href="style.css?v=20260124" />
+</head>
+<body>
+
+    <div class="layout">
+        <!-- Hamburger Menu -->
+        <button class="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- LEFT NAV -->
+        <aside class="sidebar" id="sidebar">
+            <h1>JYOTHI<br><span>RAVILLA</span></h1>
+
+            <nav>
+                <span class="nav-toggle" onclick="navigateTo('main.html')">Home</span>
+
+                <div class="nav-group" id="ceramicsMenu">
+                    <span class="nav-toggle" onclick="toggleCeramics()">Ceramics</span>
+                    <a href="mugs.html" class="ceramic-link active">Mugs</a>
+                    <a href="bowls.html" class="ceramic-link">Bowls</a>
+                    <a href="vases.html" class="ceramic-link">Vases</a>
+                </div>
+
+                <span class="nav-toggle" onclick="navigateTo('printmaking.html')">Printmaking</span>
+                <span class="nav-toggle" onclick="navigateTo('about.html')">About</span>
+                <span class="nav-toggle" onclick="navigateTo('blogs.html')">Blogs</span>
+                <span class="nav-toggle" onclick="navigateTo('https://instagram.com', true)">Instagram</span>
+                <span class="nav-toggle" onclick="navigateTo('contact.html')">Contact</span>
+            </nav>
+        </aside>
+
+        <!-- RIGHT CONTENT -->
+        <main class="content">
+            <h2>MUGS</h2>
+            <div class="image-grid">
+                <img src="images/mugs/bubblemug.jpg" alt="bubblemug">
+                <img src="images/mugs/darsha.jpg" alt="darsha">
+                <img src="images/mugs/fullgreenmug.jpg" alt="fullgreenmug">
+                <img src="images/mugs/halfgreen2.jpg" alt="halfgreen2">
+                <img src="images/mugs/halfgreeninside.jpg" alt="halfgreeninside">
+                <img src="images/mugs/heartmug.jpg" alt="heartmug">
+                <img src="images/mugs/leafmug.jpg" alt="leafmug">
+                <img src="images/mugs/leafmug2.jpg" alt="leafmug2">
+                <img src="images/mugs/leafmuginside.jpg" alt="leafmuginside">
+                <img src="images/mugs/lightbubblemug.jpg" alt="lightbubblemug">
+                <img src="images/mugs/lightbubblemuginside.jpg" alt="lightbubblemuginside">
+                <img src="images/mugs/spiralinside.jpg" alt="spiralinside">
+                <img src="images/mugs/spiralmug1.jpg" alt="spiralmug1">
+                <img src="images/mugs/spiralmug3.jpg" alt="spiralmug3">
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const sidebar = document.getElementById('sidebar');
+            hamburger.classList.toggle('active');
+            sidebar.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+        }
+
+        function closeMobileMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const sidebar = document.getElementById('sidebar');
+            hamburger.classList.remove('active');
+            sidebar.classList.remove('active');
+            document.body.classList.remove('menu-open');
+        }
+
+        function toggleCeramics() {
+            const menu = document.getElementById('ceramicsMenu');
+            const links = menu.querySelectorAll('.ceramic-link');
+            links.forEach(link => link.classList.toggle('hidden'));
+        }
+
+        function navigateTo(url, newTab = false) {
+            closeMobileMenu();
+            if (newTab) {
+                window.open(url, '_blank');
+            } else {
+                window.location.href = url;
+            }
+        }
+    </script>
+</body>
+</html>
