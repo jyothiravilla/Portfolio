@@ -50,10 +50,7 @@
             <p class="eyebrow reveal">Software Engineer &amp; Systems Builder</p>
             <h1 class="hero-name reveal">Jyothi<br><em>Ravilla</em></h1>
             <p class="hero-tagline reveal">
-                I build things that hold up under pressure — from firmware that steers
-                a surgical laser with no room for error, to multi-agent systems that
-                reason over messy real-world data.
-            </p>
+                I build things — in the cloud, in firmware, and lately, in clay.
             <div class="hero-actions reveal">
                 <a href="#projects" class="btn btn-primary">See the work</a>
                 <a href="assets/Jyothi_Ravilla_Resume.pdf" class="btn btn-ghost"
@@ -80,19 +77,15 @@
                 </div>
                 <div class="about-body reveal">
                     <p class="lede">
-                        I'm a Computer Science student splitting my time between Washington
-                        University in St. Louis and Arcadia University, and the common thread
-                        in everything I build is <strong>precision under constraint</strong> —
-                        whether that's a stepper motor with no limit switch, a laser system
-                        that can't fail quietly, or a dashboard that needs to stay accurate
-                        on its own, every day, without anyone watching it.
+                        I'm a senior CS student in WashU's dual-degree program, with a BSc already completed at Arcadia
+                        University (CS major, Math minor). Most of what actually shapes my work happens outside class
+                        cloud computing is where I started, and firmware is the one I didn't see coming, I picked it up
+                        during my internship this summer and haven't put it down since.
                     </p>
                     <p>
-                        My work spans three layers most people keep separate: embedded
-                        firmware close to the hardware, cloud &amp; database systems that move
-                        data at scale, and applied AI/automated reasoning that has to make
-                        judgment calls. I like living at the seams between them.
-                    </p>
+                        Outside of code, I make ceramics. Different material, same instinct: build something, see if it
+                        holds.</p>
+
                     <div class="about-stats">
                         <div class="stat">
                             <span class="stat-num">3</span>
@@ -132,22 +125,22 @@
                             </div>
                             <p class="tl-org">Bausch + Lomb · St. Louis, MO</p>
                             <p>
-                                Designed closed-loop stepper motor control firmware on the
-                                TMC2160 driver for a solid-state illumination board, controlling
-                                the position of a surgical laser's iris mechanism with no
-                                physical limit switch available for end-of-travel detection.
+                                Designed closed-loop stepper motor control firmware for a surgical device, using a
+                                TMC2160 motor driver to precisely position a mechanical component, one with no
+                                physical limit switch to detect when it reached the end of its travel.
                             </p>
                             <p>
-                                Implemented a stall-detection homing routine using the
-                                driver's StallGuard load feedback to determine when the iris
-                                reached its mechanical end-of-travel. Without it, the motor
-                                continued driving after the iris hit its limit, causing the
-                                gear train to bind under continued torque. Tuned the stall
-                                threshold until it reliably triggered at the true limit without
-                                false-triggering during normal travel. Also authored SRS,
-                                architecture, and detailed design documentation for the Ileos
-                                glaucoma laser platform, and expanded automated test coverage
-                                for the upcoming Stellaris/Innova release.
+                                Built a stall-detection homing routine that used the driver's built-in load-feedback
+                                to infer that limit electronically instead. Without it, the motor would
+                                keep driving past the mechanical stop, binding the gear train under continued torque.
+                                Most of the effort went into tuning the stall threshold so it triggered reliably at the
+                                true limit without false-triggering during normal operation.
+                            </p>
+                            <p>
+                                Separately, contributed to the software requirements, architecture, and design
+                                documentation (SRS/SAS/SDD) for a glaucoma surgery platform, the paperwork that defines
+                                what the software is supposed to do and how it's built, which regulated medical devices
+                                require by FDA before they can ship.
                             </p>
                             <div class="tl-tags">
                                 <span>C / Embedded</span><span>TMC2160</span><span>Firmware</span>
@@ -208,47 +201,6 @@
                 <h2 class="section-title reveal">Projects</h2>
 
                 <div class="project-grid">
-
-                    <article class="project-card reveal">
-                        <div class="project-visual">
-                            <svg viewBox="0 0 120 120" class="proj-icon" aria-hidden="true">
-                                <circle cx="60" cy="60" r="34" class="icon-ring" />
-                                <g class="icon-stroke">
-                                    <line x1="60" y1="26" x2="60" y2="38" />
-                                    <line x1="60" y1="82" x2="60" y2="94" />
-                                    <line x1="26" y1="60" x2="38" y2="60" />
-                                    <line x1="82" y1="60" x2="94" y2="60" />
-                                    <line x1="37" y1="37" x2="45" y2="45" />
-                                    <line x1="75" y1="75" x2="83" y2="83" />
-                                    <line x1="83" y1="37" x2="75" y2="45" />
-                                    <line x1="45" y1="75" x2="37" y2="83" />
-                                </g>
-                                <circle cx="60" cy="60" r="12" class="icon-hub" />
-                                <line x1="60" y1="60" x2="76" y2="48" class="icon-needle" />
-                            </svg>
-                        </div>
-                        <div class="project-body">
-                            <h3>Sensorless Stepper Homing</h3>
-                            <p class="project-blurb">
-                                A stall-detection homing algorithm for a TMC2160-driven stepper
-                                motor controlling a surgical laser's iris mechanism. Without
-                                end-of-travel detection, the motor continued driving after the
-                                iris reached its mechanical limit, causing the gear train to
-                                bind. StallGuard load feedback let the firmware detect the
-                                stall condition and cut power at the true end-of-travel point.
-                            </p>
-                            <div class="project-reveal">
-                                <p><strong>Stack:</strong> Embedded C, TMC2160 (StallGuard), SPI</p>
-                                <p>
-                                    <strong>Challenge:</strong> tuning stall sensitivity so it
-                                    reliably caught the true mechanical limit without false-triggering
-                                    during normal travel.
-                                </p>
-                            </div>
-                            <div class="tl-tags"><span>Embedded</span><span>Firmware</span><span>Motion Control</span>
-                            </div>
-                        </div>
-                    </article>
 
                     <article class="project-card reveal">
                         <div class="project-visual">
@@ -450,7 +402,8 @@
                     starting 2027.
                 </p>
                 <div class="contact-row reveal">
-                    <a href="https://www.linkedin.com/in/jyothi-ravilla-0945ab25a/" class="btn btn-ghost" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="https://www.linkedin.com/in/jyothi-ravilla-0945ab25a/" class="btn btn-ghost"
+                        target="_blank" rel="noopener">LinkedIn</a>
                 </div>
             </div>
         </section>
