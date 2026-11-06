@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Job Agent — Jyothi Ravilla</title>
+    <meta name="description" content="A rules-driven job application assistant on Claude Code, Playwright and cron. It builds truthful tailored resumes, fills applications and waits for approval before submitting.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,500;1,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../guide.css">
+</head>
+<body>
+<div class="grain"></div>
+
+<nav id="nav">
+    <div class="nav-inner">
+        <a href="../index.html" class="nav-mark" aria-label="Home">JR</a>
+        <ul class="nav-links">
+            <li class="hide-sm"><a href="#how">How it works</a></li>
+            <li><a href="../index.html#projects">All projects</a></li>
+            <li><a href="https://github.com/jyothiravilla/JobFinder_JobApplication" class="nav-cta" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+    </div>
+</nav>
+
+<header class="hero" id="top">
+    <svg class="hero-trace" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M -50 440 L 200 440 L 200 330 L 420 330 L 420 470 L 640 470 L 640 240 L 880 240 L 880 360 L 1300 360"/>
+        <circle class="node" cx="200" cy="330" r="5"></circle>
+        <circle class="node" cx="640" cy="240" r="5"></circle>
+        <circle class="node" cx="880" cy="360" r="5"></circle>
+    </svg>
+    <div class="hero-inner">
+        <p class="crumb"><a href="../index.html#projects">← Projects</a></p>
+        <p class="eyebrow">Project · Claude Code + Playwright + cron</p>
+        <h1>Claude Job<br><em>Agent</em></h1>
+        <p class="hero-tagline">
+            An always-on job application assistant. It finds entry-level roles at verified companies,
+            builds a truthful tailored resume for each one, fills the application on the company's own
+            site, and then waits. Nothing is submitted until I approve it.
+        </p>
+        <div class="hero-actions">
+            <a href="https://github.com/jyothiravilla/JobFinder_JobApplication#quick-start" class="btn btn-primary" target="_blank" rel="noopener">Setup instructions on GitHub</a>
+            <a href="https://github.com/jyothiravilla/JobFinder_JobApplication" class="btn btn-ghost" target="_blank" rel="noopener">View the code</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="section section-alt" id="how">
+        <div class="section-inner">
+            <span class="tag-eyebrow">How it works</span>
+            <h2 class="section-title">Four stages, one human checkpoint</h2>
+            <p class="section-lede">
+                It runs on a small Linux server on a daily schedule, so my laptop can stay closed.
+                The agent does the searching and the form-filling. I make the final call.
+            </p>
+            <ol class="flow" aria-label="Pipeline">
+                <li>Discover companies</li>
+                <li>Find jobs</li>
+                <li>Fill application</li>
+                <li class="gate">I approve</li>
+                <li>Submitted</li>
+            </ol>
+            <p class="flow-note">
+                <strong style="color:var(--wine)">Discover</strong> checks that each company is real and uses its official site.
+                <strong style="color:var(--wine)">Find</strong> reads career pages, scores each job against my resume and emails me a summary.
+                <strong style="color:var(--wine)">Apply</strong> fills up to 3 applications, stops on the final page and emails me the answers and a screenshot.
+                <strong style="color:var(--wine)">Approve</strong> is one command from me. Only then does it submit.
+            </p>
+        </div>
+    </section>
+
+    <section class="section" id="guardrails">
+        <div class="section-inner">
+            <span class="tag-eyebrow">Guardrails</span>
+            <h2 class="section-title">Safety enforced by code</h2>
+            <div class="need-grid">
+                <div class="need">
+                    <h3>Truthful resumes</h3>
+                    <p>A script checks every line of each tailored resume against my locked master resume. If anything is invented, no PDF is made.</p>
+                </div>
+                <div class="need">
+                    <h3>Review mode by default</h3>
+                    <p>The agent never clicks Submit by itself. Only my own command counts as approval.</p>
+                </div>
+                <div class="need">
+                    <h3>Untrusted input</h3>
+                    <p>Job posts, web pages and emails are treated as data, never as instructions.</p>
+                </div>
+            </div>
+            <div class="tl-tags" style="margin-top:34px">
+                <span>Claude Code</span><span>Playwright</span><span>cron</span><span>Python</span><span>Linux VM</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="section end-section">
+        <div class="section-inner">
+            <span class="tag-eyebrow">Try it</span>
+            <h2 class="section-title">Setup steps are on GitHub</h2>
+            <p>The repository has the full quick start, the scripts, the prompts and the docs.</p>
+            <div class="end-row">
+                <a href="https://github.com/jyothiravilla/JobFinder_JobApplication#quick-start" class="btn btn-primary" target="_blank" rel="noopener">Open the setup guide</a>
+                <a href="../index.html#projects" class="btn btn-ghost">See other projects</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    Jyothi Ravilla — Built with HTML, CSS &amp; a little copper wire.
+</footer>
+</body>
+</html>

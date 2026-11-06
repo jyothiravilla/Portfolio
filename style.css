@@ -1210,3 +1210,53 @@ a:focus-visible, button:focus-visible {
             justify-content: center;
         }
 }
+
+
+/* ============================================
+   CLICKABLE PROJECT CARD (whole card links to its page)
+   ============================================ */
+.project-card-link {
+    cursor: pointer;
+}
+
+    .project-card-link .card-link {
+        color: inherit;
+    }
+
+        /* stretch the title link over the whole card */
+        .project-card-link .card-link::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            border-radius: 16px;
+        }
+
+        .project-card-link .card-link:focus-visible {
+            outline: none;
+        }
+
+            .project-card-link .card-link:focus-visible::after {
+                outline: 2px solid var(--copper);
+                outline-offset: 3px;
+            }
+
+    .project-card-link:hover h3 {
+        color: var(--wine);
+    }
+
+.card-cta {
+    display: inline-block;
+    margin-top: 16px;
+    font-weight: 600;
+    font-size: .92rem;
+    color: var(--wine);
+    border-bottom: 1.5px solid var(--copper);
+    padding-bottom: 2px;
+    transition: border-color .25s var(--ease), transform .25s var(--ease);
+}
+
+.project-card-link:hover .card-cta {
+    border-color: var(--wine);
+    transform: translateX(4px);
+}

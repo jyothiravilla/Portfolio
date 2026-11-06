@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Paper Trading Bot — Jyothi Ravilla</title>
+    <meta name="description" content="Step-by-step guide to building a paper-money day-trading bot with Claude Code and Alpaca, with copy-ready prompts.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,500;1,600&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../guide.css">
+</head>
+<body>
+<div class="grain"></div>
+
+<nav id="nav">
+    <div class="nav-inner">
+        <a href="../index.html" class="nav-mark" aria-label="Home">JR</a>
+        <ul class="nav-links">
+            <li class="hide-sm"><a href="#how">How it works</a></li>
+            <li><a href="#steps">Steps</a></li>
+            <li><a href="../index.html#projects">All projects</a></li>
+            <li><a href="#disclaimer" class="nav-cta">Disclaimer</a></li>
+        </ul>
+    </div>
+</nav>
+
+<header class="hero" id="top">
+    <svg class="hero-trace" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M -50 470 L 160 470 L 160 380 L 300 380 L 300 430 L 470 430 L 470 300 L 620 300 L 620 350 L 800 350 L 800 210 L 960 210 L 960 260 L 1300 260"/>
+        <circle class="node" cx="300" cy="380" r="5"></circle>
+        <circle class="node" cx="620" cy="300" r="5"></circle>
+        <circle class="node" cx="960" cy="210" r="5"></circle>
+    </svg>
+    <div class="hero-inner">
+        <p class="crumb"><a href="../index.html#projects">← Projects</a></p>
+        <p class="eyebrow">Project · Claude Code + Alpaca · Paper money only</p>
+        <h1>AI Paper<br><em>Trading Bot</em></h1>
+        <p class="hero-tagline">
+            A day-trading bot that scans the market, plans every stop and target, replays each trade
+            10,000 times before risking a cent, and still asks you before it places an order.
+            Follow the 11 steps below and copy each prompt as written.
+        </p>
+        <div class="hero-facts">
+            <div class="fact"><span class="fact-num">$0</span><span class="fact-label">real money used: fake paper money only</span></div>
+            <div class="fact"><span class="fact-num">11</span><span class="fact-label">steps, each with a copy button</span></div>
+            <div class="fact"><span class="fact-num">~45 min</span><span class="fact-label">for the first-time setup</span></div>
+        </div>
+        <div class="hero-actions">
+            <a href="#steps" class="btn btn-primary">Start at step 1</a>
+            <a href="#disclaimer" class="btn btn-ghost">Read the disclaimer first</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- DISCLAIMER -->
+    <section class="section" id="disclaimer" style="padding-top:30px">
+        <div class="section-inner">
+            <div class="disclaimer" role="note" aria-label="Disclaimer">
+                <h2>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#D9A870" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v5"/><circle cx="12" cy="18" r=".6" fill="#D9A870"/></svg>
+                    Disclaimer: read before you start
+                </h2>
+                <ul>
+                    <li><strong>This uses paper money only.</strong> A paper account is a practice account filled with fake money. No real money is bought, sold or at risk.</li>
+                    <li><strong>This is not financial advice.</strong> It is a personal learning project about AI tools. Nothing on this page tells you to buy or sell any stock.</li>
+                    <li><strong>We are not responsible for any losses</strong>, damages or problems that come from using this guide, these prompts or this bot, including if you connect it to a real-money account.</li>
+                    <li><strong>Do not connect this to a live (real-money) account.</strong> Keep <code class="inline" style="background:rgba(246,238,227,.1);color:#F6EEE3;border-color:rgba(246,238,227,.2)">ALPACA_PAPER_TRADE=true</code> at all times.</li>
+                    <li><strong>Simulated results do not predict real results.</strong> AI tools make mistakes. Check every order before you approve it.</li>
+                    <li>Never share your API keys with anyone, and never paste them into a chat window.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section section-alt" id="how">
+        <div class="section-inner">
+            <span class="tag-eyebrow">How it works</span>
+            <h2 class="section-title">What happens on every run</h2>
+            <p class="section-lede">
+                Each time the bot runs, it goes through these checks in order. If any check fails,
+                it does nothing for that stock (it "holds") and writes the reason in a log file.
+            </p>
+            <ol class="flow" aria-label="Run order">
+                <li>Safety checks</li>
+                <li>Scan charts + news</li>
+                <li>20-day trend filter</li>
+                <li>Entry signal</li>
+                <li>Set stop + target</li>
+                <li class="gate">Time Machine odds</li>
+                <li class="gate">You approve</li>
+                <li>Write to log</li>
+            </ol>
+            <p class="flow-note">
+                <strong style="color:var(--wine)">Safety checks</strong> confirm the account is a paper account, the market is open,
+                the daily order limit is not used up, and the bot has not lost more than 10%.
+                <strong style="color:var(--wine)">Time Machine</strong> replays the trade 10,000 times on the stock's recent price data.
+                The bot only continues if the odds are clearly better than a coin flip.
+                Every position is closed by 3:55 PM Eastern Time (ET).
+            </p>
+        </div>
+    </section>
+
+    <!-- WHAT YOU NEED -->
+    <section class="section" id="need">
+        <div class="section-inner">
+            <span class="tag-eyebrow">Before you start</span>
+            <h2 class="section-title">What you need</h2>
+            <p class="section-lede">Get these five things ready. Steps 1 and 2 show you how to set up each one.</p>
+            <div class="need-grid">
+                <div class="need">
+                    <h3>A computer</h3>
+                    <p>Windows, Mac or Linux. The examples below use Windows. Mac and Linux commands are shown where they differ.</p>
+                </div>
+                <div class="need">
+                    <h3>Claude Code</h3>
+                    <p>Needs a paid Claude plan (Pro or higher). Install it from <a href="https://claude.com/claude-code" target="_blank" rel="noopener">claude.com/claude-code</a>.</p>
+                </div>
+                <div class="need">
+                    <h3>An Alpaca paper account</h3>
+                    <p>Free. Sign up at <a href="https://alpaca.markets" target="_blank" rel="noopener">alpaca.markets</a>. Step 1 covers this.</p>
+                </div>
+                <div class="need">
+                    <h3>Python 3.8 or newer</h3>
+                    <p>Free from <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a>. On Windows, tick "Add Python to PATH" during install.</p>
+                </div>
+                <div class="need">
+                    <h3>Git</h3>
+                    <p>Free from <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git-scm.com</a>. Used once, to download the trading tools.</p>
+                </div>
+            </div>
+            <div class="callout" style="margin-top:26px">
+                <strong>How to read the steps:</strong> a <span class="where">⌨ Terminal</span> label means type the command in your
+                computer's terminal (PowerShell on Windows, Terminal on Mac). A <span class="where chat">✦ Claude Code</span> label means paste
+                the text into Claude Code after you start it with <code class="inline">claude</code>.
+                Text <span class="ph" style="color:var(--wine-deep);background:rgba(180,118,60,.22)">highlighted like this</span> inside a code box is a placeholder. Replace it with your own value.
+            </div>
+        </div>
+    </section>
+
+    <!-- STEPS -->
+    <section class="section section-alt" id="steps">
+        <div class="section-inner">
+            <span class="tag-eyebrow">Step by step</span>
+            <h2 class="section-title">Build the bot in 11 steps</h2>
+            <p class="section-lede">Do the steps in order. Finish each step and check that it worked before you move to the next one.</p>
+
+            <div class="steps">
+
+                <!-- STEP 1 -->
+                <article class="step" id="step-1">
+                    <div class="step-num">1</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Create your Alpaca paper account and keys</h3><span class="step-meta">5 min · browser</span></div>
+                        <p class="step-why">Alpaca is the broker. Its paper account gives you $100,000 of fake money to practice with.</p>
+                        <ol>
+                            <li>Go to <a href="https://alpaca.markets" target="_blank" rel="noopener">alpaca.markets</a> and sign up with your email.</li>
+                            <li>Log in. In the account switcher at the top left, choose your <strong>Paper</strong> account.</li>
+                            <li>On the paper account's home page, find <strong>API Keys</strong> and click <strong>Generate New Keys</strong>.</li>
+                            <li>Copy the <strong>API Key</strong> and the <strong>Secret Key</strong> into a private note on your computer. The secret is shown only once.</li>
+                        </ol>
+                        <p class="check"><strong>Check:</strong> a paper API key starts with the letters <code class="inline">PK</code>. If yours does not, you are in a live account. Switch to Paper and generate new keys.</p>
+                    </div>
+                </article>
+
+                <!-- STEP 2 -->
+                <article class="step" id="step-2">
+                    <div class="step-num">2</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Install uv</h3><span class="step-meta">3 min · terminal</span></div>
+                        <p class="step-why">uv is a small program that downloads and runs Alpaca's connector for Claude Code.</p>
+                        <span class="where">⌨ Terminal · Windows (PowerShell)</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Command</span></div>
+<pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre>
+                        </div>
+                        <span class="where">⌨ Terminal · Mac or Linux</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Command</span></div>
+<pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre>
+                        </div>
+                        <ol>
+                            <li>Close the terminal and open a new one.</li>
+                            <li>Type the command below and press Enter.</li>
+                        </ol>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Command</span></div>
+<pre><code>uvx --version</code></pre>
+                        </div>
+                        <p class="check"><strong>Check:</strong> it prints a version number, such as <code class="inline">uv 0.13.7</code>. If it says "not recognized", restart your computer and try again.</p>
+                    </div>
+                </article>
+
+                <!-- STEP 3 -->
+                <article class="step" id="step-3">
+                    <div class="step-num">3</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Make a folder and download the trading tools</h3><span class="step-meta">2 min · terminal</span></div>
+                        <p class="step-why">This creates a folder named <code class="inline">DayTrading</code> and downloads the free day-trader skills (scanner, news, entry, exit, Time Machine) into it.</p>
+                        <span class="where">⌨ Terminal</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Commands, run one line at a time</span></div>
+<pre><code>mkdir DayTrading
+cd DayTrading
+git clone https://github.com/Jakeschincariol/day-trader-skill.git github-daytrader/day-trader-skill</code></pre>
+                        </div>
+                        <p class="check"><strong>Check:</strong> the folder <code class="inline">DayTrading/github-daytrader/day-trader-skill</code> now exists and has folders whose names start with <code class="inline">trader-</code>.</p>
+                    </div>
+                </article>
+
+                <!-- STEP 4 -->
+                <article class="step" id="step-4">
+                    <div class="step-num">4</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Connect Alpaca to Claude Code</h3><span class="step-meta">3 min · terminal</span></div>
+                        <p class="step-why">This gives Claude Code access to your paper account. Your keys stay on your computer.</p>
+                        <ol>
+                            <li>Copy the command below into a text editor first.</li>
+                            <li>Replace <span class="ph" style="color:var(--wine-deep);background:rgba(180,118,60,.22)">YOUR_API_KEY</span> and <span class="ph" style="color:var(--wine-deep);background:rgba(180,118,60,.22)">YOUR_SECRET_KEY</span> with the keys from step 1.</li>
+                            <li>Paste the finished command into your terminal and press Enter.</li>
+                        </ol>
+                        <span class="where">⌨ Terminal</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Command</span></div>
+<pre><code>claude mcp add alpaca --scope user -e ALPACA_API_KEY=<span class="ph">YOUR_API_KEY</span> -e ALPACA_SECRET_KEY=<span class="ph">YOUR_SECRET_KEY</span> -e ALPACA_PAPER_TRADE=true -- uvx alpaca-mcp-server</code></pre>
+                        </div>
+                        <ol start="4">
+                            <li>Start Claude Code inside the folder: type <code class="inline">claude</code> and press Enter.</li>
+                            <li>In Claude Code, type <code class="inline">/mcp</code> and press Enter.</li>
+                        </ol>
+                        <p class="check"><strong>Check:</strong> <code class="inline">alpaca</code> appears in the list as <strong>connected</strong>. If it shows <strong>failed</strong> on Windows, run the command again but replace <code class="inline">uvx</code> with the full path, for example <code class="inline">C:\Users\<span class="ph" style="color:var(--wine-deep);background:rgba(180,118,60,.22)">you</span>\.local\bin\uvx.exe</code>.</p>
+                        <div class="callout warn"><strong>Never</strong> paste your keys into the Claude Code chat, and never change <code class="inline">ALPACA_PAPER_TRADE</code> to <code class="inline">false</code>.</div>
+                    </div>
+                </article>
+
+                <!-- STEP 5 -->
+                <article class="step" id="step-5">
+                    <div class="step-num">5</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Set up permissions, rules and the log</h3><span class="step-meta">Prompt 1 of 6</span></div>
+                        <p class="step-why">This prompt locks down what Claude may do. Reading data is allowed, placing an order always asks you first, and options orders are blocked completely. It also creates the rules file and an empty trade log.</p>
+                        <span class="where chat">✦ Claude Code, inside the DayTrading folder</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Prompt 1 · Setup</span></div>
+<pre><code>I'm setting up a paper-trading bot with Alpaca's MCP server. Paper money only, for learning.
+
+1. Check the alpaca MCP server is connected and call get_account_info. Tell me the buying power, and remind me this should be a paper account.
+2. Add these permission rules to .claude/settings.json in this folder (merge with anything already there):
+   allow: mcp__alpaca__get_*
+   ask: mcp__alpaca__place_stock_order, mcp__alpaca__place_crypto_order, mcp__alpaca__cancel_all_orders, mcp__alpaca__close_position
+   deny: mcp__alpaca__place_option_order, mcp__alpaca__close_all_positions, mcp__alpaca__update_account_config
+3. Create trading-rules.md with these rules for me to edit:
+   - Watchlist: [e.g. 5 large, well-known stocks or ETFs]
+   - Max 10% of the account in any one position
+   - Every buy has a stop loss
+   - At most 3 orders a day
+   - No options, no shorting, no margin
+   - Only trade while the market is open
+4. Create an empty trades-log.md.
+5. Explain each rule and permission back to me in plain English.
+
+Never ask me for API keys and never change ALPACA_PAPER_TRADE.</code></pre>
+                        </div>
+                        <p class="check"><strong>Check:</strong> Claude reports your buying power, your account number starts with <code class="inline">PA</code> (paper), and the folder now has <code class="inline">.claude/settings.json</code>, <code class="inline">trading-rules.md</code> and <code class="inline">trades-log.md</code>.</p>
+                    </div>
+                </article>
+
+                <!-- STEP 6 -->
+                <article class="step" id="step-6">
+                    <div class="step-num">6</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Fill in the trading rules</h3><span class="step-meta">Prompt 2 of 6</span></div>
+                        <p class="step-why">The rules file starts with blanks. This prompt fills them with exact numbers, so the bot never has to guess.</p>
+                        <span class="where chat">✦ Claude Code</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Prompt 2 · Rules</span></div>
+<pre><code>Update trading-rules.md with these rules. Keep everything else in the file.
+
+- Watchlist: SPY, QQQ, AAPL, MSFT, JPM
+- Stop loss: 5% below the entry price, placed together with the buy order
+- Buy signal: the last completed daily close is above the 20-day moving average
+- Sell signal: the last completed daily close is below the 20-day moving average
+- Take profit: none. The sell signal handles exits.
+- Order type: limit orders, no more than 0.5% from the current price
+- Approvals: keep order placement on "ask" so I approve every order
+- Kill switch: if account equity drops below $90,000, place no new orders, send me a push notification and stop
+- Push notifications: when an order is placed, a stop fills, the kill switch trips, or the account is not a paper account
+
+Then explain each change back to me in plain English.</code></pre>
+                        </div>
+                        <p class="check"><strong>Check:</strong> open <code class="inline">trading-rules.md</code>. It lists the 5 symbols, the 5% stop, the 20-day average signals and the $90,000 kill switch.</p>
+                    </div>
+                </article>
+
+                <!-- STEP 7 -->
+                <article class="step" id="step-7">
+                    <div class="step-num">7</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Give the bot its own $50,000 budget</h3><span class="step-meta">Prompt 3 of 6</span></div>
+                        <p class="step-why">This limits the bot to half of the paper account, so you can test a second bot on the same account later. Every order gets a name tag (<code class="inline">ma20-</code>) so the bot only touches its own trades.</p>
+                        <span class="where chat">✦ Claude Code</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Prompt 3 · Budget</span></div>
+<pre><code>Change the rules so this bot, named "MA20", only uses a $50,000 budget instead of the whole $100,000 account. I want to run a second bot on the same account later.
+
+- Position cap: 10% of $50,000 = $5,000 per position
+- Kill switch: stop if this bot's own value drops below $45,000
+- Tag every order this bot places with a client_order_id that starts with "ma20-"
+- Never touch orders or positions whose client_order_id does not start with "ma20-"
+- Never cancel all orders or close all positions, because that would hit the other bot too
+- Move mcp__alpaca__cancel_all_orders from "ask" to "deny" in .claude/settings.json
+
+Then explain each change back to me in plain English.</code></pre>
+                        </div>
+                        <p class="check"><strong>Check:</strong> <code class="inline">trading-rules.md</code> shows a $50,000 budget and a $45,000 kill switch. Type <code class="inline">/permissions</code> in Claude Code and confirm <code class="inline">cancel_all_orders</code> is under <strong>Deny</strong>.</p>
+                    </div>
+                </article>
+
+                <!-- STEP 8 -->
+                <article class="step" id="step-8">
+                    <div class="step-num">8</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Connect the day-trading tools</h3><span class="step-meta">Prompt 4 of 6</span></div>
+                        <p class="step-why">This switches the bot to day trading. It adds the scanner, the news monitor, the exit planner and the Time Machine (from step 3) to every run.</p>
+                        <span class="where chat">✦ Claude Code</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Prompt 4 · Connect tools</span></div>
+<pre><code>The day-trader skills are in github-daytrader/day-trader-skill. Connect them to my MA20 bot by rewriting trading-rules.md so every run does this:
+
+1. Read trading-rules.md and the log, and check the market clock (as before).
+2. Run the scanner and news monitor to find candidate setups.
+3. Use the exit planner to set the stop and target. The stop comes from each trade's own chart. Keep 5% below the entry as the widest stop allowed.
+4. Run the Time Machine on the plan. Only proceed if the odds are clearly better than a coin flip. Otherwise hold.
+5. If it passes, place the order through Alpaca (still on "ask"), and log the reason plus the Time Machine result.
+
+Run the tools from this folder so their files go to the trader/ folder here. Close every position by 3:55 PM ET. Do not place any orders yet. Explain the new run order back to me in plain English.</code></pre>
+                        </div>
+                        <p class="check"><strong>Check:</strong> <code class="inline">trading-rules.md</code> now has a "Run order" section with the scanner, entry, exit planner and Time Machine commands.</p>
+                    </div>
+                </article>
+
+                <!-- STEP 9 -->
+                <article class="step" id="step-9">
+                    <div class="step-num">9</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Turn on SEC filings in the news check</h3><span class="step-meta">Prompt 5 of 6</span></div>
+                        <p class="step-why">The SEC asks every program that reads its filings to send a name and email. Replace both placeholders with your own.</p>
+                        <span class="where chat">✦ Claude Code</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Prompt 5 · SEC identity</span></div>
+<pre><code>Create trader/config.json in this folder with "sec_user_agent": "<span class="ph">Your Name</span> <span class="ph">you@example.com</span>" so the news monitor can read SEC filings. If the news command in trading-rules.md has --no-sec, remove it.</code></pre>
+                        </div>
+                        <p class="check"><strong>Check:</strong> the file <code class="inline">trader/config.json</code> exists and contains your name and email.</p>
+                    </div>
+                </article>
+
+                <!-- STEP 10 -->
+                <article class="step" id="step-10">
+                    <div class="step-num">10</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Do one supervised run</h3><span class="step-meta">Prompt 6 of 6</span></div>
+                        <p class="step-why">This is the prompt the bot runs every time. Run it once yourself while you watch, before you schedule it.</p>
+                        <ol>
+                            <li>Replace <span class="ph" style="color:var(--wine-deep);background:rgba(180,118,60,.22)">YOUR FOLDER PATH</span> on the first line with the full path of your DayTrading folder.</li>
+                            <li>Run it on a weekday between 10:00 AM and 3:30 PM ET, when the market is open.</li>
+                            <li>When Claude asks to place an order, read the ticket. Click <strong>Allow once</strong> only if it matches your rules. Otherwise click <strong>Deny</strong>.</li>
+                        </ol>
+                        <span class="where chat">✦ Claude Code</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Prompt 6 · The bot run</span></div>
+<pre><code>You are the "MA20" paper-trading bot. Working folder: <span class="ph">YOUR FOLDER PATH, for example C:\Users\you\DayTrading</span>
+Run every command from that folder so the tools' files go to DayTrading\trader\ (never github-daytrader\trader\).
+
+1. Read trading-rules.md and trades-log.md. trading-rules.md is the source of truth. If anything below conflicts with it, follow the rules file.
+
+2. Safety checks, in this order:
+   - get_account_info: the account number must start with "PA". If it doesn't, log it, send a push notification and stop.
+   - Work out bot value from this bot's own orders (client_order_id starting with "ma20-"). If it's below $45,000, log KILL SWITCH, send a push notification and stop.
+   - get_clock: if the market is closed, log "market closed" and stop.
+   - Count today's ma20- orders from Alpaca's order history. If there are already 3, place nothing new (closing a position at 15:55 is still allowed).
+
+3. If it's 15:55 ET or later: close every open ma20- position. Cancel only that symbol's own ma20- bracket legs with cancel_order_by_id, then place a sell limit. Log it and stop. Never use cancel-all or close-all.
+
+4. Scan and news (no new entries after 15:30 ET):
+   python github-daytrader/day-trader-skill/trader-scanner/scan.py orb --symbols SPY,QQQ,AAPL,MSFT,JPM
+   python github-daytrader/day-trader-skill/trader-news/news.py --tickers SPY QQQ AAPL MSFT JPM
+   Also call Alpaca get_news for these symbols. Only scanner hits are candidates. Bad news means HOLD. News alone is never a reason to buy.
+
+5. For each candidate the bot doesn't already hold:
+   a. Trend filter: the last completed daily close must be above the 20-day average (average of the last 20 completed daily closes, via get_stock_bars). Otherwise HOLD.
+   b. python github-daytrader/day-trader-skill/trader-entry/entry.py check SYMBOL --write
+      Continue only if the status is "triggered".
+   c. python github-daytrader/day-trader-skill/trader-exit/exit.py plan --stop or-mid --target 2R --flat-by 15:55 --write
+      HOLD if the planner refuses or the stop is more than 5% below the entry.
+   d. python github-daytrader/day-trader-skill/trader-timemachine/timemachine.py run --until 15:55 --write
+      Proceed ONLY if all three hold:
+        - the verdict starts with "Leans toward the target" or "Strongly toward the target"
+        - the average R is above 0
+        - the history has at least 10 fires and more target hits than stop hits
+      Anything else ("Close to a coin flip", "Close to break-even", leaning toward the stop, too little history, the tool refusing) means HOLD.
+   e. Get the current quote. Buy limit = no more than 0.5% above the ask. Skip if the limit is more than 0.5% above the plan's entry.
+      Shares = floor(5000 / limit). The cost must fit within both bot cash and the account's actual cash.
+   f. Place ONE order with place_stock_order: side buy, type limit, time_in_force day, no extended hours,
+      order_class "bracket", stop_loss_stop_price = the plan's stop, take_profit_limit_price = the plan's target,
+      client_order_id "ma20-SYMBOL-YYYYMMDD-buy".
+      If approval is denied or not available (unattended run), do NOT retry. Log "PROPOSED (not placed)" with the full order details and send a push notification.
+      Stop placing orders once today's ma20- order count reaches 3.
+
+6. Append one line per watchlist symbol to trades-log.md:
+   date time ET | SYMBOL | ACTION | qty | price | stop | target | close vs 20MA | TM: verdict, target% / stop% / neither%, avg R, history W-L | bot value | one-sentence reason (say so when it's weak)
+   Use "-" for any step a symbol never reached.
+
+7. Send a push notification when an order is placed or proposed, a stop or target fills, the kill switch trips, or the account isn't paper.
+
+Never: options, shorting, margin, extended hours, symbols outside the watchlist, or touching any order or position without the ma20- prefix.</code></pre>
+                        </div>
+                        <p class="check"><strong>Check:</strong> open <code class="inline">trades-log.md</code>. It has one new line for each of the 5 symbols, each with an action (BUY, HOLD or PROPOSED) and a reason. "HOLD" on every symbol is a normal result. It means no setup passed every check.</p>
+                    </div>
+                </article>
+
+                <!-- STEP 11 -->
+                <article class="step" id="step-11">
+                    <div class="step-num">11</div>
+                    <div class="step-card">
+                        <div class="step-head"><h3>Schedule it to run on weekdays</h3><span class="step-meta">10 min · optional</span></div>
+                        <p class="step-why">The bot can run by itself at set times. Run it at these 5 times. The first run must be after 9:50 AM ET, when the first breakout signal can appear. Keep the 3:55 PM run, because it closes open positions.</p>
+                        <table class="times">
+                            <thead><tr><th>Eastern (ET)</th><th>Central (CT)</th><th>Pacific (PT)</th><th>Purpose</th></tr></thead>
+                            <tbody>
+                                <tr><td>10:00 AM</td><td>9:00 AM</td><td>7:00 AM</td><td>First scan</td></tr>
+                                <tr><td>11:00 AM</td><td>10:00 AM</td><td>8:00 AM</td><td>Scan</td></tr>
+                                <tr><td>12:30 PM</td><td>11:30 AM</td><td>9:30 AM</td><td>Scan</td></tr>
+                                <tr><td>2:00 PM</td><td>1:00 PM</td><td>11:00 AM</td><td>Scan</td></tr>
+                                <tr><td>3:55 PM</td><td>2:55 PM</td><td>12:55 PM</td><td>Close all bot positions</td></tr>
+                            </tbody>
+                        </table>
+                        <ol>
+                            <li>Save the prompt from step 10 (with your folder path filled in) as a file named <code class="inline">run-prompt.txt</code> inside your DayTrading folder.</li>
+                            <li>Test it once. Open <strong>Command Prompt</strong> (Windows) or <strong>Terminal</strong> (Mac), go to the folder with <code class="inline">cd</code>, and run:</li>
+                        </ol>
+                        <span class="where">⌨ Command Prompt (Windows) or Terminal (Mac)</span>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Command</span></div>
+<pre><code>claude -p &lt; run-prompt.txt</code></pre>
+                        </div>
+                        <ol start="3">
+                            <li><strong>Windows:</strong> open <strong>Task Scheduler</strong> and click <strong>Create Basic Task</strong>.</li>
+                            <li>Name it <code class="inline">MA20 bot 10am</code>. Choose <strong>Weekly</strong>, tick Monday to Friday, and set the start time from the table above in your own time zone.</li>
+                            <li>Choose <strong>Start a program</strong>. In <strong>Program/script</strong>, type <code class="inline">cmd.exe</code>.</li>
+                            <li>In <strong>Add arguments</strong>, paste the line below. In <strong>Start in</strong>, paste your DayTrading folder path.</li>
+                        </ol>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Add arguments</span></div>
+<pre><code>/c claude -p &lt; run-prompt.txt &gt;&gt; run-output.txt 2&gt;&amp;1</code></pre>
+                        </div>
+                        <ol start="7">
+                            <li>Click <strong>Finish</strong>. Repeat steps 3 to 6 for the other 4 times.</li>
+                            <li><strong>Mac or Linux:</strong> type <code class="inline">crontab -e</code> and add one line per time. This example runs at 10:00 AM on weekdays, if your computer clock is on Eastern Time:</li>
+                        </ol>
+                        <div class="codebox">
+                            <div class="codebox-bar"><span class="codebox-label">Cron line</span></div>
+<pre><code>0 10 * * 1-5 cd <span class="ph">/full/path/to/DayTrading</span> &amp;&amp; claude -p &lt; run-prompt.txt &gt;&gt; run-output.txt 2&gt;&amp;1</code></pre>
+                        </div>
+                        <div class="callout warn">
+                            <strong>Your computer must be on and awake</strong> at each scheduled time, or the run is skipped.
+                            <br><strong>Orders still need your approval.</strong> A scheduled run has nobody to click "Allow", so the bot writes the order in <code class="inline">trades-log.md</code> as <code class="inline">PROPOSED (not placed)</code> instead. Read the log after each run and place the order by hand if you agree with it.
+                            <br><strong>The 3:55 PM close also needs approval.</strong> If nobody approves it, the position stays open overnight. Its stop-loss order stays in place.
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- STOP / RESET -->
+    <section class="section" id="stop">
+        <div class="section-inner">
+            <span class="tag-eyebrow">Stopping the bot</span>
+            <h2 class="section-title">How to turn it off</h2>
+            <div class="need-grid">
+                <div class="need">
+                    <h3>Stop scheduled runs</h3>
+                    <p>Windows: open Task Scheduler, right-click each "MA20 bot" task and click <strong>Delete</strong>. Mac: run <code class="inline">crontab -e</code> and delete the lines.</p>
+                </div>
+                <div class="need">
+                    <h3>Close open trades</h3>
+                    <p>Log in to Alpaca, open your <strong>Paper</strong> account, go to <strong>Positions</strong> and close them by hand.</p>
+                </div>
+                <div class="need">
+                    <h3>Remove Alpaca access</h3>
+                    <p>In the terminal, run <code class="inline">claude mcp remove alpaca --scope user</code>. Then delete the keys on Alpaca's API Keys page.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- END -->
+    <section class="section end-section">
+        <div class="section-inner">
+            <span class="tag-eyebrow">Reminder</span>
+            <h2 class="section-title">Paper money. Real lessons. No promises.</h2>
+            <p>This bot trades fake money for learning only. It is not financial advice, and we are not responsible for any losses or problems from using it.</p>
+            <div class="end-row">
+                <a href="#steps" class="btn btn-primary">Back to step 1</a>
+                <a href="../index.html#projects" class="btn btn-ghost">See other projects</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    Jyothi Ravilla — Built with HTML, CSS &amp; a little copper wire.
+</footer>
+
+<script src="../guide.js"></script>
+</body>
+</html>
