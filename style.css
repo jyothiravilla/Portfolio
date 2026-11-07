@@ -534,6 +534,27 @@ a:focus-visible, button:focus-visible {
     color: var(--wine);
 }
 
+.text-link {
+    color: var(--wine);
+    font-weight: 600;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--copper);
+    transition: color .2s;
+}
+
+    .text-link:hover {
+        color: var(--copper);
+    }
+
+.path-section {
+    padding-top: 0;
+}
+
+    .path-section .section-inner {
+        border-top: 1px solid rgba(100, 30, 50, .15);
+        padding-top: 80px;
+    }
+
 .about-stats {
     display: flex;
     gap: 46px;
